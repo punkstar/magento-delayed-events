@@ -1,2 +1,3 @@
-src/app/code/community/Meanbee/AsyncEvents app/code/community/Meanbee/AsyncEvents
+src/app/code/community/Meanbee/* app/code/community/Meanbee/
 src/app/etc/modules/* app/etc/modules/
+util/run_worker.php /

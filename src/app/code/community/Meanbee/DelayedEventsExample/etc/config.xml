@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<config>
+    <modules>
+        <Meanbee_DelayedEventsExample>
+            <version>0.0.1</version>
+        </Meanbee_DelayedEventsExample>
+    </modules>
+    <global>
+        <models>
+            <meanbee_delayedeventsexample>
+                <class>Meanbee_DelayedEventsExample_Model</class>
+            </meanbee_delayedeventsexample>
+        </models>
+        <helpers>
+            <meanbee_delayedeventsexample>
+                <class>Meanbee_DelayedEventsExample_Helper</class>
+            </meanbee_delayedeventsexample>
+        </helpers>
+    </global>
+    <frontend>
+        <events>
+            <controller_action_postdispatch_cms_index_index>
+                <observers>
+                    <meanbee_delayedeventsexample>
+                        <type>singleton</type>
+                        <class>Meanbee_DelayedEventsExample_Model_Observer</class>
+                        <method>controllerActionPostdispatchCmsIndexIndex</method>
+                        <delayed>1</delayed>
+                    </meanbee_delayedeventsexample>
+                </observers>
+            </controller_action_postdispatch_cms_index_index>
+        </events>
+    </frontend>
+</config>

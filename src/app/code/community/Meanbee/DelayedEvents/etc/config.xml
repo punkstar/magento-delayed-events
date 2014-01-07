@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<config>
+    <modules>
+        <Meanbee_DelayedEvents>
+            <version>0.0.1</version>
+        </Meanbee_DelayedEvents>
+    </modules>
+    <global>
+        <models>
+            <meanbee_delayedevents>
+                <class>Meanbee_DelayedEvents_Model</class>
+            </meanbee_delayedevents>
+        </models>
+        <helpers>
+            <meanbee_delayedevents>
+                <class>Meanbee_DelayedEvents_Helper</class>
+            </meanbee_delayedevents>
+        </helpers>
+    </global>
+</config>

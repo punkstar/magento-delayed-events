@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <config>
     <modules>
-        <Meanbee_AsyncEvents>
+        <Meanbee_DelayedEvents>
             <active>true</active>
             <codePool>community</codePool>
-        </Meanbee_AsyncEvents>
+        </Meanbee_DelayedEvents>
     </modules>
 </config>

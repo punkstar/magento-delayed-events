@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Meanbee_DelayedEventsExample>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Meanbee_DelayedEventsExample>
+    </modules>
+</config>

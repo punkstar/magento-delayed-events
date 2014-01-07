@@ -1,5 +1,15 @@
 <?php
-class Meanbee_AsyncEvents_Model_Core_App extends Mage_Core_Model_App {
+/**
+ * Class Meanbee_DelayedEvents_Model_Core_App
+ */
+class Meanbee_DelayedEvents_Model_Core_App extends Mage_Core_Model_App {
+
+    /**
+     * @param $eventName
+     * @param $args
+     *
+     * @return $this
+     */
     public function dispatchEvent($eventName, $args) {
         foreach ($this->_events as $area => $events) {
             if (!isset($events[$eventName])) {
@@ -17,6 +27,11 @@ class Meanbee_AsyncEvents_Model_Core_App extends Mage_Core_Model_App {
                         'model'  => $obsConfig->class ? (string)$obsConfig->class : $obsConfig->getClassName(),
                         'method' => (string)$obsConfig->method,
                         'args'   => (array)$obsConfig->args,
+
+                        /*
+                         * Look for the additional <delayed></delayed> tag we've added.
+                         */
+                        'delayed'  => (int)$obsConfig->delayed
                     );
                 }
 
@@ -44,20 +59,50 @@ class Meanbee_AsyncEvents_Model_Core_App extends Mage_Core_Model_App {
                         $method = $obs['method'];
                         $observer->addData($args);
                         $object = Mage::getModel($obs['model']);
-                        $this->_callObserverMethod($object, $method, $observer);
+                        $this->_callObserverMethod($object, $method, $observer, $obs['delayed']);
                         break;
                     default:
                         $method = $obs['method'];
                         $observer->addData($args);
                         $object = Mage::getSingleton($obs['model']);
-                        $this->_callObserverMethod($object, $method, $observer);
+                        $this->_callObserverMethod($object, $method, $observer, $obs['delayed']);
                         break;
                 }
-                
+
                 Varien_Profiler::stop('OBSERVER: ' . $obsName);
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * Performs non-existent observer method calls protection.
+     *
+     * Extended to support queuing of the job if $delayed is defined as 1.
+     *
+     * @param object $object
+     * @param string $method
+     * @param Varien_Event_Observer $observer
+     * @param int    $delayed Should this be queued or executed immediately?
+     * @return Mage_Core_Model_App
+     * @throws Mage_Core_Exception
+     */
+    protected function _callObserverMethod($object, $method, $observer, $delayed = 0)
+    {
+        if (method_exists($object, $method)) {
+            if ($delayed) {
+                $job = Mage::getModel('meanbee_delayedevents/job')
+                    ->setObject($object)
+                    ->setMethod($method)
+                    ->setObserver($observer);
+                $job->enqueue();
+            } else {
+                $object->$method($observer);
+            }
+        } elseif (Mage::getIsDeveloperMode()) {
+            Mage::throwException('Method "'.$method.'" is not defined in "'.get_class($object).'"');
+        }
         return $this;
     }
 }
