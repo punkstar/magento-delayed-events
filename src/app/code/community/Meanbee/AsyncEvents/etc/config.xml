@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<config>
+    <modules>
+        <Meanbee_AsyncEvents>
+            <version>0.0.1</version>
+        </Meanbee_AsyncEvents>
+    </modules>
+    <global>
+        <models>
+            <meanbee_asyncevents>
+                <class>Meanbee_AsyncEvents_Model</class>
+            </meanbee_asyncevents>
+        </models>
+        <helpers>
+            <meanbee_asyncevents>
+                <class>Meanbee_AsyncEvents_Helper</class>
+            </meanbee_asyncevents>
+        </helpers>
+    </global>
+</config>
